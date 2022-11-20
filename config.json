@@ -3,6 +3,6 @@
     "MAR_threshold": 0.30,  
     "number_of_frames": 30,
     "number_of_yawns": 4,
-    "number_of_frames_yawns": 500,
+    "number_of_frames_yawns": 300,
     "plot_graph_parameter": 1
 }

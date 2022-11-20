@@ -95,8 +95,8 @@ def driver_sleep_detector():
 
     blink_counter = 0
     yawns_counter = 0
-    yawns_frame_starter = 0
     yawns_frame_counter = 0
+    single_yawn_event = 0
     EAR_list = list()
     MAR_list = list()
 
@@ -144,6 +144,7 @@ def driver_sleep_detector():
             mouth = cv2.convexHull(mouth)
             cv2.drawContours(frame, [mouth], -1, (255, 0, 0), 1)
 
+            # Logic for Person Sleeping
             if EAR < EAR_threshold:
                 blink_counter = blink_counter + 1
                 if blink_counter >= number_of_frames:
@@ -152,18 +153,25 @@ def driver_sleep_detector():
             else:
                 blink_counter = 0
 
+            # Logic for Person Yawning
             if MAR > MAR_threshold:
+                # Since a yawn can last for about a certain amount of seconds, we skip once certain frames, once a yawn is detected
+                single_yawn_event = 1
+
+            elif MAR < MAR_threshold and single_yawn_event == 1:
                 yawns_counter = yawns_counter + 1
-                yawns_frame_starter = yawns_frame_starter + 1
-                # Since a yawn can last for about a certain amount of seconds
-                time.sleep(2)
+                print("Number of Yawns: ", yawns_counter)
                 if yawns_counter >= number_of_yawns and yawns_frame_counter <= number_of_frames_yawns :
                     cv2.putText(frame, "*************WARNING! You are feeling Sleepy !!!*************", (15, 35), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
                     print("WARNING !!!")
-                    yawns_frame_starter = 0
-                    yawns_frame_counter = 0
-                    number_of_yawns = 0
-            if yawns_frame_starter != 0:
+                single_yawn_event = 0
+
+            if yawns_counter == 4 or yawns_frame_counter >= number_of_frames_yawns:
+                print("Yawns Counter Reset")
+                yawns_counter = 0
+                yawns_frame_counter = 0
+            
+            if yawns_counter != 0:
                 yawns_frame_counter = yawns_frame_counter + 1
 
         # Display the frame
@@ -182,10 +190,9 @@ def driver_sleep_detector():
     # Clean the Root Folder
     try:
         print("Cleaning Root Directory")
-        os.rmdir("__pycache__")
+        os.rmdir("__pycache__/")
     except:
         pass
-
 
 
 if __name__ == '__main__':
