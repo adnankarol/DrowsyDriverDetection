@@ -3,3 +3,5 @@
 dlib_models/*
 
 driver_sleep_detection/*
+
+__pycache__/*

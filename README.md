@@ -1,5 +1,5 @@
 # Driver_Sleep_Detection
-A Computer Vision based Project to check if the driver of a vehicle is sleepy
+A Computer Vision based Project to check if the driver of a vehicle is sleepy.
 
 # About the Project
 
@@ -14,15 +14,25 @@ The project is inspired by [here](https://pyimagesearch.com/2017/05/08/drowsines
 1. The first step is to detect if a face can be identified using the [dlib](http://dlib.net/) library.
 2. Once a face is found, the coordinates of the eye are selected. The coordinates of the face are shown in the [image](https://www.researchgate.net/publication/343699139_A_framework_for_facial_age_progression_and_regression_using_exemplar_face_templates) below. 
     
-    ![face coordinates](Images/face_cordinates.jpg)
+    ![face coordinates](Images/Face_Coordinates.jpg)
 3. Once the eyes are identified, the Eye Aspect Ratio (EAR) for each eye is calculated using the equation shown below.
    
-   ![EAR](Images/EAR.png)
+   ![EAR](Images/EAR_Coordinates.png)
 
     <img src="https://latex.codecogs.com/svg.image?\inline&space;\huge&space;\bg{black}EAR&space;=&space;\frac{(P2-P6)&space;&plus;&space;(P3-P5)}{2(P1-P4)}" title="https://latex.codecogs.com/svg.image?\inline \huge \bg{black}EAR = \frac{(P2-P6) + (P3-P5)}{2(P1-P4)}" />
 
 4. The average EAR of both eyes is taken.
 5. If the Average EAR of both eyes falls below a threshold for a given consecutive number of frames, then the alarm is sounded and the driven can be woken.
+6. The threshold of each driver/person can be found a simple experiment.
+   1. Simple run the main program using the command `python main.py`.
+   2. Ask the person to keep his eyes open for some time and then make a quick blink, then ask him to keep it open, and then a bigger blink.
+   3. Then stop the program by pressing the `q` key.
+   4. Open the file `Graphs\EAR.png`.
+   5. You can see the visualized EAR against frame in this graph and from this you can identify and set the EAR_threshold.
+   6. Modify this in the `config.json`.
+   7. A sample graph is shown in the Image below. The red block represents a blink event.
+   
+    ![EAR Graph](Images/EAR_Graph.png)
 
 # Prerequisites for Windows
 
@@ -32,10 +42,12 @@ The project is inspired by [here](https://pyimagesearch.com/2017/05/08/drowsines
 
 # Run the Code
 
-1. Download the dblib models for face detection [here](http://dlib.net/files/shape_predictor_68_face_landmarks.dat.bz2).
-2. Install requirements.txt using pip `install -r requirements.txt`
 
-3. In order to test or run the code, run the command `python main.py`
+1. It is highly recommended to use a virtual environment. A medium article for this can be found [here](https://medium.com/swlh/create-a-python-virtual-environment-with-built-in-venv-module-109f71dccbdf).
+2. Download the dblib models for face detection [here](http://dlib.net/files/shape_predictor_68_face_landmarks.dat.bz2).
+3. Install requirements.txt using pip `install -r requirements.txt`
+
+4. In order to test or run the code, run the command `python main.py`
    
 # Additional Information
 

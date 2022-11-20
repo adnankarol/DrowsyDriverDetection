@@ -12,6 +12,8 @@ import dlib
 from imutils import face_utils
 import imutils
 
+from graphical_analysis import plot_ear_graph
+
 # Define the Path to the Config File
 path_to_config_file = "config.json"
 
@@ -47,6 +49,23 @@ def eye_aspect_ratio(eye):
 
 
 """
+Function to Calculate the MAR of the mouth
+"""
+def eye_aspect_ratio(eye):
+
+	# Euclidean distance between the two sets of vertical coordinates
+	EAR1 = distance.euclidean(eye[1], eye[5])
+	EAR2 = distance.euclidean(eye[2], eye[4])
+
+	# Euclidean distance between the two sets of horizontal coordinates
+	EAR3 = distance.euclidean(eye[0], eye[3])
+
+	EAR = (EAR1 + EAR2) / (2.0 * EAR3)
+
+	return EAR
+
+
+"""
 Driver Function
 """
 def driver_sleep_detector():
@@ -66,6 +85,8 @@ def driver_sleep_detector():
         exit()
 
     counter = 0
+    EAR_list = list()
+
     while True:
         # Capture frame-by-frame
         ret, frame = cap.read()
@@ -88,6 +109,11 @@ def driver_sleep_detector():
             rightEAR = eye_aspect_ratio(rightEye)
             EAR = (leftEAR + rightEAR) / 2.0
 
+            try:
+                EAR_list.append(EAR)
+            except:
+                pass
+
             leftEyeHull = cv2.convexHull(leftEye)
             rightEyeHull = cv2.convexHull(rightEye)
             cv2.drawContours(frame, [leftEyeHull], -1, (255, 0, 0), 1)
@@ -102,9 +128,11 @@ def driver_sleep_detector():
             else:
                 counter = 0
 
-        # Display the resulting frame
+        # Display the frame
         cv2.imshow('frame', frame)
         if cv2.waitKey(1) == ord('q'):
+            # Before Shutting Off Save Plot of EAR for analyis: not needed for production code
+            EAR_graph_status = plot_ear_graph(EAR_list)
             break
 
     # When everything done, close the video
