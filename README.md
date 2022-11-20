@@ -7,7 +7,11 @@ The main idea of this project is to protect drivers who travel a long distance, 
 
 The project can be deployed on a Raspberry Pi and can be installed along with a camera on the dashboard of the car. The system will automatically check if the person is sleepy and sound an alarm when the person seems to be sleepy.
 
-The project is inspired by [here](https://pyimagesearch.com/2017/05/08/drowsiness-detection-opencv/).
+The project checks for two things:
+1. If the person's eyes are closed continuously, then the person has slept (or is very sleepy) and an ALERT is sent out as this is critical.
+2. If the person is yawning more than a number of times under a certain time, that means is extremely sleepy and a WARNING is sent out.
+
+The project is inspired from [here](https://pyimagesearch.com/2017/05/08/drowsiness-detection-opencv/).
 
 # Working of the Project
 
@@ -23,21 +27,25 @@ The project is inspired by [here](https://pyimagesearch.com/2017/05/08/drowsines
 
 4. The average EAR of both eyes is taken.
 5. If the Average EAR of both eyes falls below a threshold for a given consecutive number of frames, then the alarm is sounded and the driven can be woken.
-6. The threshold of each driver/person can be found a simple experiment.
+6. The threshold of each driver/person can be found by a simple experiment.
    1. Simple run the main program using the command `python main.py`.
    2. Ask the person to keep his eyes open for some time and then make a quick blink, then ask him to keep it open, and then a bigger blink.
    3. Then stop the program by pressing the `q` key.
    4. Open the file `Graphs\EAR.png`.
-   5. You can see the visualized EAR against frame in this graph and from this you can identify and set the EAR_threshold.
+   5. You can see the visualized EAR against the frame in this graph and from this, you can identify and set the EAR_threshold.
    6. Modify this in the `config.json`.
-   7. A sample graph is shown in the Image below. The red block represents a blink event.
+   7. A sample graph is shown in the image below. The red block represents a blink event.
    
     ![EAR Graph](Images/EAR_Graph.png)
+7. On a similar basis the yawn detector also works and sents our WARNINGS. The parameters can be adjusted in the `config.json`.
+8. The yawn detector basically checks if a person yawns, and if the yawn is detected based on if MAR exceeds the `MAR_threshold`.
+9. If there are more than a defined number of yawns `number_of_yawns` in a specified number of frames (defined by `number_of_frames_yawns`), then an ALARM is sounded.
+10. On a similar basis as defined in point 6, the thresholds can be detected and set.
 
 # Prerequisites for Windows
 
 1. Install [CMake](https://cmake.org/download/): Since dlib is C-based, CMake is required for the build. Also, add CMake to your Environment Variables.
-2. Install Visual Studio [here](https://visualstudio.microsoft.com/visual-cpp-build-tools/): Also install additional package Packages `CMake tools for Windows`
+2. Install Visual Studio [here](https://visualstudio.microsoft.com/visual-cpp-build-tools/): Also install additional package Packages `CMake tools for Windows`.
 
 
 # Run the Code
