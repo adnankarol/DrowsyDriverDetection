@@ -1,0 +1,5 @@
+# List of Files and Folders to be ignored by git
+
+dlib_models/*
+
+driver_sleep_detection/*
