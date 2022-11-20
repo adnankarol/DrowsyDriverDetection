@@ -12,7 +12,7 @@ import dlib
 from imutils import face_utils
 import imutils
 import time
-import os
+import shutil
 
 from graphical_analysis import plot_ear_graph
 from graphical_analysis import plot_mar_graph
@@ -190,7 +190,7 @@ def driver_sleep_detector():
     # Clean the Root Folder
     try:
         print("Cleaning Root Directory")
-        os.rmdir("__pycache__/")
+        shutil.rmtree("__pycache__")
     except:
         pass
 
