@@ -1,61 +1,77 @@
-"""
-Created on Sun Nov 20 15:19:01 2022
-@author = Karol
-"""
+__author__ = "Adnan Karol"
+__version__ = "1.0.0"
+__maintainer__ = "Adnan Karol"
+__email__ = "adnanmushtaq5@gmail.com"
+__status__ = "DEV"
 
 # Import Dependencies
-
 import os
 import matplotlib.pyplot as plt
 
+def create_graphs_directory():
+    """
+    Create a directory for saving graphs if it doesn't already exist.
+    """
+    if not os.path.exists("Graphs"):
+        print("Creating 'Graphs' directory...")
+        os.makedirs("Graphs")
+    else:
+        print("'Graphs' directory already exists.")
 
-"""
-Function to take a list of EAR values and plot and save the EAR graph for analysis
-"""
 def plot_ear_graph(EAR):
-    
+    """
+    Plot and save the Eye Aspect Ratio (EAR) graph for analysis.
+
+    Args:
+        EAR (list): List of EAR values to plot.
+
+    Returns:
+        int: Returns 1 if the plot is saved successfully, otherwise -1.
+    """
     try:
-        y = list(range(1, len(EAR)+1))
-        plt.plot(y, EAR)
+        frames = list(range(1, len(EAR) + 1))
+        plt.figure()
+        plt.plot(frames, EAR, label='EAR', color='blue')
         plt.xlabel('Frame')
         plt.ylabel('Average EAR')
-        plt.title('EAR for analysis')
-        if not os.path.exists("Graphs"):
-            print("Creating Graphs Folder !!!")
-            os.makedirs("Graphs")
-        else:
-            print("Graphs Folder already Exists !!!")
+        plt.title('Eye Aspect Ratio (EAR) Analysis')
+        plt.legend()
+        
+        create_graphs_directory()
         plt.savefig('Graphs/EAR.png', dpi=300, bbox_inches='tight')
-        plt.cla()  
-        plt.clf()   
-        print("EAR Plot saved Successfully !!!")
+        plt.close()  # Close the figure to free up memory
+
+        print("EAR plot saved successfully.")
         return 1
-    except:
-        print("EAR Plot was not Plot !!!")
+    except Exception as e:
+        print(f"Error saving EAR plot: {e}")
         return -1
 
-
-"""
-Function to take a list of MAR values and plot and save the MAR graph for analysis
-"""
 def plot_mar_graph(MAR):
-    
+    """
+    Plot and save the Mouth Aspect Ratio (MAR) graph for analysis.
+
+    Args:
+        MAR (list): List of MAR values to plot.
+
+    Returns:
+        int: Returns 1 if the plot is saved successfully, otherwise -1.
+    """
     try:
-        y = list(range(1, len(MAR)+1))
-        plt.plot(y, MAR)
+        frames = list(range(1, len(MAR) + 1))
+        plt.figure()
+        plt.plot(frames, MAR, label='MAR', color='red')
         plt.xlabel('Frame')
         plt.ylabel('Average MAR')
-        plt.title('MAR for analysis')
-        if not os.path.exists("Graphs"):
-            print("Creating Graphs Folder !!!")
-            os.makedirs("Graphs")
-        else:
-            print("Graphs Folder already Exists !!!")
+        plt.title('Mouth Aspect Ratio (MAR) Analysis')
+        plt.legend()
+        
+        create_graphs_directory()
         plt.savefig('Graphs/MAR.png', dpi=300, bbox_inches='tight')
-        plt.cla()  
-        plt.clf()  
-        print("MAR Plot saved Successfully !!!")
+        plt.close()  # Close the figure to free up memory
+
+        print("MAR plot saved successfully.")
         return 1
-    except:
-        print("MAR Plot was not Plot !!!")
+    except Exception as e:
+        print(f"Error saving MAR plot: {e}")
         return -1
