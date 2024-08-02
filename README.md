@@ -1,4 +1,4 @@
-# Driver Sleep Detection
+# DrowsyDriverDetection
 
 **Driver Sleep Detection** is a computer vision-based project designed to monitor driver alertness by detecting signs of drowsiness. This system can be deployed on a Raspberry Pi with a camera mounted on the dashboard to help ensure driver safety during long trips, especially at night.
 
